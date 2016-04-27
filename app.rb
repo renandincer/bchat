@@ -2,9 +2,10 @@ require 'sinatra'
 require 'json'
 require_relative 'message'
 
-@messages = []
+messages = []
 invalid_msg_error = { 'error' => 'please send a valid message' }
 
+# before every request, set content type to json
 before do
   content_type 'application/json'
 end
@@ -15,10 +16,12 @@ post '/' do
   request.body.rewind
   body = request.body.read
 
+  # TODO(renandincer): can think of ways not to parse json twice (exceptions)
   return 400, invalid_msg_error.to_json unless Message.correct_syntax(body)
 
-  message = Message.new(body)
-  @messages.push(message)
+  message = Message.json_create(body)
+  messages.push(message)
+  200
 end
 
 # Get messages between user_a and user_b.
@@ -27,7 +30,7 @@ get '/:user_a/:user_b/:time?' do
   if params['time']
     # TODO(renandincer): add select time then return
   else
-    return select_by_user(params['user_a'], params['user_b'], @messages).to_json
+    return select_by_user(params['user_a'], params['user_b'], messages).to_json
   end
 end
 

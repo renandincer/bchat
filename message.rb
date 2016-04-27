@@ -24,11 +24,14 @@ class Message
 
   # create a message from a json object
   def self.json_create(o)
-    new(o['from'], o['to'], o['message'])
+    msg = JSON.parse(o)
+    new(msg['from'], msg['to'], msg['message'])
   end
 
   # check syntax for incoming message objects
   def self.correct_syntax(o)
-    return false if !o['from'] || !o['to']
+    msg = JSON.parse(o)
+    return false if !msg['from'] || !msg['to'] || !msg['message']
+    true
   end
 end
