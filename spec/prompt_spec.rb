@@ -116,6 +116,20 @@ describe "blank username" do
   end
 end
 
+describe "blank body when sending message" do
+	before(:all) do
+    uri = URI.parse("http://localhost:4567")
+		http = Net::HTTP.new(uri.host, uri.port)
+		request = Net::HTTP::Post.new("/")
+		request.add_field('Content-Type', 'application/json')
+		request.body = ""
+		@response = http.request(request)
+  end
+
+   it "returns 400" do
+  	expect(@response.code).to eq("400")
+  end
+end
 
 describe "time filtered results" do
 	before(:all) do

@@ -30,7 +30,11 @@ class Message
 
   # check syntax for incoming message objects
   def self.correct_syntax(o)
-    msg = JSON.parse(o)
+    begin
+      msg = JSON.parse(o)
+    rescue JSON::ParserError => e
+      return false
+    end
     return false if !msg['from'] || !msg['to'] || !msg['message']
     return false if msg['from'] === "" || !msg['to'] === ""
     true
