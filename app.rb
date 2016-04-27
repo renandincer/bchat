@@ -26,7 +26,7 @@ end
 
 # Get messages between user_a and user_b.
 # If time is specified, return only messages after that time.
-get '/:user_a/:user_b/:time?' do
+get '/:user_a/:user_b/?:time?' do
   if params['time']
     # TODO(renandincer): add select time then return
   else
