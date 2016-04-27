@@ -32,6 +32,7 @@ class Message
   def self.correct_syntax(o)
     msg = JSON.parse(o)
     return false if !msg['from'] || !msg['to'] || !msg['message']
+    return false if msg['from'] === "" || !msg['to'] === ""
     true
   end
 end
