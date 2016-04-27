@@ -16,3 +16,19 @@ post '/' do
   message = Message.new(body)
   @messages.push(message)
 end
+
+# Get messages between user_a and user_b.
+# If time is specified, return only messages after that time.
+get '/:user_a/:user_b/:time?' do
+  user_a = params['user_a']
+  user_b = params['user_b']
+
+  if params['time']
+    # TODO(renandincer): add select time then return
+  else
+    return messages.select do |msg|
+      (msg.from == user_a && msg.to == user_b) ||
+      (msg.to == user_a && msg.from == user_b)
+    end
+  end
+end
