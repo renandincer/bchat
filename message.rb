@@ -1,14 +1,34 @@
-#Message class to represent a im message
 require 'json'
 
+# Message class to represent a im message
 class Message
-	attr_accessor :from, :to, :message, :time
-	
-	#initialize message
-	def initialize(from, to, message)
-		@from = from
-		@to = to
-		@message = message
-		@time = Time.now
-	end
+  attr_accessor :from, :to, :message, :time
+
+  # initialize message
+  def initialize(from, to, message)
+    @from = from
+    @to = to
+    @message = message
+    @time = Time.now
+  end
+
+  # convert message into json object
+  def to_json(*a)
+    {
+      'from' => @from,
+      'to' => @to,
+      'message' => @message,
+      'at' => @time.to_i
+    }.to_json(*a)
+  end
+
+  # create a message from a json object
+  def self.json_create(o)
+    new(o['from'], o['to'], o['message'])
+  end
+
+  # check syntax for incoming message objects
+  def self.correct_syntax(o)
+    return false if !o['from'] || !o['to']
+  end
 end
