@@ -1,6 +1,6 @@
 require 'sinatra'
 require 'json'
-require 'message'
+require_relative 'message'
 
 @messages = []
 invalid_msg_error = { 'error' => 'please send a valid message' }
