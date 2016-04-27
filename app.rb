@@ -29,16 +29,13 @@ end
 get '/:user_a/:user_b/?:time?' do
   user_a = params['user_a']
   user_b = params['user_b']
-  if params['time']
-    new_messages = []
-    messages.reverse_each do |msg|
-      break if msg.time.to_i <= params['time'].to_i
-      new_messages << msg
-    end
-    return select_by_user(user_a, user_b, new_messages).to_json
-  else
-    return select_by_user(user_a, user_b, messages).to_json
+  return select_by_user(user_a, user_b, messages).to_json unless params['time']
+  new_messages = []
+  messages.reverse_each do |msg|
+    break if msg.time.to_i <= params['time'].to_i
+    new_messages << msg
   end
+  return select_by_user(user_a, user_b, new_messages).to_json
 end
 
 # make case sentitive comparasions of usernames and return all messages
