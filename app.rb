@@ -27,10 +27,17 @@ end
 # Get messages between user_a and user_b.
 # If time is specified, return only messages after that time.
 get '/:user_a/:user_b/?:time?' do
+  user_a = params['user_a']
+  user_b = params['user_b']
   if params['time']
-    # TODO(renandincer): add select time then return
+    new_messages = []
+    messages.reverse_each do |msg|
+      break if msg.time.to_i <= params['time'].to_i
+      new_messages << msg
+    end
+    return select_by_user(user_a, user_b, new_messages).to_json
   else
-    return select_by_user(params['user_a'], params['user_b'], messages).to_json
+    return select_by_user(user_a, user_b, messages).to_json
   end
 end
 
