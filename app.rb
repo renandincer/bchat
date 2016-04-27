@@ -5,6 +5,10 @@ require 'message'
 @messages = []
 invalid_msg_error = { 'error' => 'please send a valid message' }
 
+before do
+  content_type 'application/json'
+end
+
 # Create a new chat message
 # body is a JSON Dict with from, to, message
 post '/' do
